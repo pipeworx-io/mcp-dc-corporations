@@ -1,0 +1,92 @@
+[
+  {
+    "name": "dc_corp_search",
+    "description": "Search the District of Columbia corporate register by company name: every corporation, LLC, limited partnership, nonprofit and foreign registration the DC Corporations Division holds, active and dissolved. Returns file number, legal name, entity type, domestic or foreign, status, DC registration date, the date a foreign entity was organised elsewhere, business address, and the report-filing dates, plus data_as_of. A row is a hit when its name equals the one asked: legal-form spellings (Inc / Incorporated, LLC / L.L.C., Co / Company), a trailing full stop and & vs and count as the same name, and each result carries `match` (exact, legal_form_variant, spacing_variant). Set match_mode starts_with for every name that begins with the text. Answers \"is this company registered in DC, and is it in good standing\". Use file_number with dc_corp_entity for one record.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Company name, e.g. \"Acme Paper & Supply Co\" or \"Booz Allen Hamilton\"."
+        },
+        "match_mode": {
+          "type": "string",
+          "enum": [
+            "name",
+            "starts_with"
+          ],
+          "description": "name (default): only rows whose name equals the one asked, legal-form spellings aside. starts_with: every name that begins with the text."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "inactive",
+            "any"
+          ],
+          "description": "Filter by status (default any). Active means Active - In Good Standing or Active - Not in Good Standing."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max results (default 10, max 100)."
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  {
+    "name": "dc_corp_entity",
+    "description": "One District of Columbia corporate registration by file number: legal name, entity type, domestic or foreign, status, DC registration date, date organised elsewhere (foreign entities), business address, next annual-report year due, date the last report was filed, and when the record last changed, plus data_as_of. The file number is the DC registrar's own, e.g. \"223996\" or \"US-DC-FN112602492\"; get it from dc_corp_search or dc_corp_new_entities.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "file_number": {
+          "type": "string",
+          "description": "DC file number, e.g. \"223996\" or \"US-DC-FN112602492\"."
+        }
+      },
+      "required": [
+        "file_number"
+      ]
+    }
+  },
+  {
+    "name": "dc_corp_new_entities",
+    "description": "Entities newly registered in the District of Columbia since a date, newest first: new LLCs, corporations, nonprofits and partnerships formed in DC, plus foreign companies that newly registered to do business there. Each row has file number, name, entity type, domestic or foreign, status, DC registration date, business address and source, plus data_as_of. Optional locale, entity-type and name filters. Registrations dated in the future (delayed-effective filings) are left out. Use for new-business lead lists and formation monitoring.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "since": {
+          "type": "string",
+          "description": "DC registration date on or after, YYYY-MM-DD, e.g. \"2026-11-01\"."
+        },
+        "locale": {
+          "type": "string",
+          "enum": [
+            "domestic",
+            "foreign",
+            "any"
+          ],
+          "description": "domestic = formed in DC; foreign = formed elsewhere and registered in DC (default any)."
+        },
+        "entity_type": {
+          "type": "string",
+          "description": "Only entity types containing this text, e.g. \"limited liability\" or \"nonprofit\"."
+        },
+        "name_query": {
+          "type": "string",
+          "description": "Only names containing this text, e.g. \"dental\"."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max results (default 100, max 1000)."
+        }
+      },
+      "required": [
+        "since"
+      ]
+    }
+  }
+]

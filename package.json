@@ -1,0 +1,33 @@
+{
+  "name": "@pipeworx/mcp-dc-corporations",
+  "version": "0.1.0",
+  "description": "dc-corporations -- the District of Columbia corporate register (fleet #4422).",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./tools.json": "./tools.json",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "mcp-dc-corporations": "bin/cli.js"
+  },
+  "files": ["bin/", "lib/", "tools.json", "server.json"],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "mcp-server", "model-context-protocol", "pipeworx", "dc-corporations"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pipeworx-io/mcp-dc-corporations.git"
+  },
+  "mcpName": "io.github.pipeworx-io/dc-corporations",
+  "pipeworx": {
+    "mode": "gateway",
+    "slug": "dc-corporations",
+    "gatewaySlug": "dc-corporations",
+    "sourceHash": "v1-94955a2dee606a1524c285f761cefe3713425d0cdaf1cfda15675f576149709d",
+    "sourceCommit": "9b123410e80fd80deb8ee57bee9f84a34f5e3430"
+  }
+}
